@@ -1,10 +1,8 @@
 from tkinter import *
 import requests
-import json
-import pprint
+# import json
+# import pprint
 from  tkinter import messagebox as mb
-
-from bottle import response
 
 
 def exchange():
@@ -21,13 +19,13 @@ def exchange():
                 mb.showerror("Ошибка!", f"Валюта {code} не найдена!")
         except Exception as e:
             mb.showerror("Ошибка!", f"Произошла ошибка: {e}!")
-    esle:
+    else:
         mb.showwarning("Внимание!", "Введите код валюты!")
 
 
 window = Tk()
 window.title("Курсы обмена валют")
-window.geometry("360x80")
+window.geometry("360x140")
 
 Label(text="Введите код валюты").pack(padx=10, pady=10)
 
