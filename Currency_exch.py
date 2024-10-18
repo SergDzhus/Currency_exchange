@@ -31,7 +31,7 @@ window.title("Курсы обмена валют")
 window.geometry("360x140")
 
 Label(text="Выберите код валюты").pack(padx=10, pady=10)
-cur = ["RUB", "EUR", "GBP", "CHF", "JPY", "CNY", "KZT", "UZS", "AED", "CAD"]
+cur = ['RUB', 'EUR', 'GBP', 'CHF', 'JPY', 'CNY', 'KZT', 'UZS', 'AED', 'CAD']
 combobox = ttk.Combobox(values=cur)
 combobox.pack(padx=10, pady=10)
 
