@@ -6,6 +6,11 @@ from  tkinter import messagebox as mb
 from tkinter import ttk
 
 
+def update_currency_label(event):
+    code = combobox.get()
+    name = curr[code]
+    currency_label.config(text=name)
+
 def exchange():
     # code_0 = entry.get()
     # code = code_0.upper()
@@ -17,7 +22,8 @@ def exchange():
             data = response.json()
             if code in data['rates']:
                 exchange_rate = data['rates'][code]
-                mb.showinfo("Курс обмена", f"Курс: {exchange_rate:.2f} {code} за один доллар")
+                currency_name = curr[code]
+                mb.showinfo("Курс обмена", f"Курс: {exchange_rate:.2f} {currency_name} за один доллар")
             else:
                 mb.showerror("Ошибка!", f"Валюта {code} не найдена!")
         except Exception as e:
@@ -25,18 +31,30 @@ def exchange():
     else:
         mb.showwarning("Внимание!", "Введите код валюты!")
 
+curr = {
+    'RUB': 'Российский рубль',
+    'EUR': 'Евро',
+    'GBP': 'Британский фунт',
+    'CHF': 'Швейцарский франк',
+    'JPY': 'Японская йена',
+    'CNY': 'Китайский юань',
+    'KZT': 'Казахский тенге',
+    'UZS': 'Узбекский сум',
+    'AED': 'Дирхам ОАЭ',
+    'CAD': 'Канадский доллар'
+}
 
 window = Tk()
 window.title("Курсы обмена валют")
-window.geometry("360x140")
+window.geometry("360x160")
 
 Label(text="Выберите код валюты").pack(padx=10, pady=10)
-cur = ['RUB', 'EUR', 'GBP', 'CHF', 'JPY', 'CNY', 'KZT', 'UZS', 'AED', 'CAD']
-combobox = ttk.Combobox(values=cur)
+combobox = ttk.Combobox(values=list(curr.keys()))
 combobox.pack(padx=10, pady=10)
+combobox.bind("<<ComboboxSelected>>", update_currency_label)
 
-# entry = Entry()
-# entry.pack(padx=10, pady=10)
+currency_label = ttk.Label()
+currency_label.pack(padx=10, pady=10)
 
 Button(text="Получить курс обмена к USD", command=exchange).pack(padx=10, pady=10)
 
