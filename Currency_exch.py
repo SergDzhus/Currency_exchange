@@ -18,7 +18,7 @@ def exchange():
     base_code = base_combobox.get()
     if target_code and base_code:
         try:
-            response = requests.get('https://open.er-api.com/v6/latest/USD')
+            response = requests.get(f'https://open.er-api.com/v6/latest/{base_code}')
             response.raise_for_status()
             data = response.json()
             if target_code in data['rates']:
@@ -35,6 +35,7 @@ def exchange():
 
 curr = {
     'RUB': 'Российский рубль',
+    'USD': 'Американский доллар',
     'EUR': 'Евро',
     'GBP': 'Британский фунт',
     'CHF': 'Швейцарский франк',
@@ -48,7 +49,7 @@ curr = {
 
 window = Tk()
 window.title("Курсы обмена валют")
-window.geometry("360x180")
+window.geometry("360x300")
 
 Label(text="Базовая валюта").pack(padx=10, pady=10)
 
@@ -65,6 +66,6 @@ target_combobox.bind("<<ComboboxSelected>>", update_currency_label)
 currency_label = ttk.Label()
 currency_label.pack(padx=10, pady=10)
 
-Button(text="Получить курс обмена к USD", command=exchange).pack(padx=10, pady=10)
+Button(text="Получить курс обмена", command=exchange).pack(padx=10, pady=10)
 
 window.mainloop()
