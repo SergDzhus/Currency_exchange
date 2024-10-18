@@ -6,7 +6,8 @@ from  tkinter import messagebox as mb
 
 
 def exchange():
-    code = entry.get()
+    code_0 = entry.get()
+    code = code_0.upper()
     if code:
         try:
             response = requests.get('https://open.er-api.com/v6/latest/USD')
