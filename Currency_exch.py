@@ -23,7 +23,8 @@ def update_target_label(event):
     name = curr[code]
     target_label.config(text=name)
 
-def exchange():
+def exchange1():
+    global exchange_rate1, target_name, base_name1
     target_code = target_combobox.get()
     base_code1 = base_combobox1.get()
     if target_code and base_code1:
@@ -32,10 +33,10 @@ def exchange():
             response.raise_for_status()
             data = response.json()
             if target_code in data['rates']:
-                exchange_rate = data['rates'][target_code]
+                exchange_rate1 = data['rates'][target_code]
                 target_name = curr[target_code]
                 base_name1 = curr[base_code1]
-                mb.showinfo("Курс обмена", f"Курс: {exchange_rate:.2f} {target_name} за один {base_name1}")
+                # mb.showinfo("Курс обмена", f"Курс: {exchange_rate1:.2f} {target_name} за один {base_name1}")
             else:
                 mb.showerror("Ошибка!", f"Валюта {target_code} не найдена!")
         except Exception as e:
@@ -43,8 +44,38 @@ def exchange():
     else:
         mb.showwarning("Внимание!", "Введите код валюты!")
 
+
+def exchange2():
+    global exchange_rate2, target_name, base_name2
+    target_code = target_combobox.get()
+    base_code2 = base_combobox2.get()
+    if target_code and base_code2:
+        try:
+            response = requests.get(f'https://open.er-api.com/v6/latest/{base_code2}')
+            response.raise_for_status()
+            data = response.json()
+            if target_code in data['rates']:
+                exchange_rate2 = data['rates'][target_code]
+                target_name = curr[target_code]
+                base_name2 = curr[base_code2]
+                # mb.showinfo("Курс обмена", f"Курс: {exchange_rate2:.2f} {target_name} за один {base_name2}")
+            else:
+                mb.showerror("Ошибка!", f"Валюта {target_code} не найдена!")
+        except Exception as e:
+            mb.showerror("Ошибка!", f"Произошла ошибка: {e}!")
+    else:
+        mb.showwarning("Внимание!", "Введите код валюты!")
+
+
+def exchange():
+    exchange1()
+    exchange2()
+    mb.showinfo("Курс обмена", f"Курс: {exchange_rate1:.2f} {target_name} за один {base_name1}\nКурс: {exchange_rate2:.2f} {target_name} за один {base_name2}")
+
 curr = {
     "RUB": "Российский рубль",
+    "USD": "Доллар США",
+    "GBP": "Британский фунт стерлингов",
     "AED": "Дирхам ОАЭ",
     "AFN": "Афгани",
     "ALL": "Албанский лек",
@@ -91,7 +122,6 @@ curr = {
     "FJD": "Доллар Фиджи",
     "FKP": "Фунт Фолклендских островов",
     "FOK": "Фарерская крона",
-    "GBP": "Британский фунт стерлингов",
     "GEL": "Грузинский лари",
     "GGP": "Фунт Гернси",
     "GHS": "Ганский седи",
@@ -190,7 +220,6 @@ curr = {
     "TZS": "Танзанийский шиллинг",
     "UAH": "Украинская гривна",
     "UGX": "Угандийский шиллинг",
-    "USD": "Доллар США",
     "UYU": "Уругвайское песо",
     "UZS": "Узбекский сум",
     "VES": "Венесуэльский боливар",
