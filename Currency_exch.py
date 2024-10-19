@@ -6,10 +6,10 @@ from  tkinter import messagebox as mb
 from tkinter import ttk
 
 
-def update_base_label(event):
-    code = base_combobox.get()
+def update_base_label1(event):
+    code = base_combobox1.get()
     name = curr[code]
-    base_label.config(text=name)
+    base_label1.config(text=name)
 
 
 def update_target_label(event):
@@ -18,20 +18,18 @@ def update_target_label(event):
     target_label.config(text=name)
 
 def exchange():
-    # code_0 = entry.get()
-    # code = code_0.upper()
     target_code = target_combobox.get()
-    base_code = base_combobox.get()
-    if target_code and base_code:
+    base_code1 = base_combobox1.get()
+    if target_code and base_code1:
         try:
-            response = requests.get(f'https://open.er-api.com/v6/latest/{base_code}')
+            response = requests.get(f'https://open.er-api.com/v6/latest/{base_code1}')
             response.raise_for_status()
             data = response.json()
             if target_code in data['rates']:
                 exchange_rate = data['rates'][target_code]
                 target_name = curr[target_code]
-                base_name = curr[base_code]
-                mb.showinfo("Курс обмена", f"Курс: {exchange_rate:.2f} {target_name} за один {base_name}")
+                base_name1 = curr[base_code1]
+                mb.showinfo("Курс обмена", f"Курс: {exchange_rate:.2f} {target_name} за один {base_name1}")
             else:
                 mb.showerror("Ошибка!", f"Валюта {target_code} не найдена!")
         except Exception as e:
@@ -206,15 +204,23 @@ curr = {
 
 window = Tk()
 window.title("Курсы обмена валют")
-window.geometry("360x300")
+window.geometry("360x450")
 
-Label(text="Базовая валюта").pack(padx=10, pady=10)
+label1 = (Label(text="Базовая валюта"))
+label1.pack(padx=10, pady=10)
+base_combobox1 = ttk.Combobox(values=list(curr.keys()))
+base_combobox1.pack(padx=10, pady=10)
+base_combobox1.bind("<<ComboboxSelected>>", update_base_label1)
+base_label1 = ttk.Label()
+base_label1.pack(padx=10, pady=10)
 
-base_combobox = ttk.Combobox(values=list(curr.keys()))
-base_combobox.pack(padx=10, pady=10)
-base_combobox.bind("<<ComboboxSelected>>", update_base_label)
-base_label = ttk.Label()
-base_label.pack(padx=10, pady=10)
+label2 = (Label(text="Вторая базовая валюта"))
+label2.pack(padx=10, pady=10)
+base_combobox2 = ttk.Combobox(values=list(curr.keys()))
+base_combobox2.pack(padx=10, pady=10)
+base_combobox2.bind("<<ComboboxSelected>>", update_base_label1)
+base_label2 = ttk.Label()
+base_label2.pack(padx=10, pady=10)
 
 Label(text="Целевая валюта").pack(padx=10, pady=10)
 
